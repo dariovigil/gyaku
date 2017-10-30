@@ -26,5 +26,5 @@ var key = {
   }
 };
 
-window.addEventListener('keyup', function(event) { key.onKeyup(event); });
-window.addEventListener('keydown', function(event) { key.onKeydown(event); });
+window.addEventListener('keyup', function(event) { key.onKeyup(event); }, false);
+window.addEventListener('keydown', function(event) { key.onKeydown(event); }, false);
