@@ -5,5 +5,7 @@ body {
 }
 
 canvas {
+  background-image: url("./img/giphy_vert_inf.gif");
   background-color: grey;
+  /*border: 1px solid red;*/
 }

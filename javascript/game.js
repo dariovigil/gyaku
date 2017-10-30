@@ -1,47 +1,24 @@
-var canvas,
-    player,
-    ctx;
+var canvas, player, ctx, game, dy, bg, bgCounter = 0;
+
+function Game() {
+  this.player = new Player(canvas.width / 2 - 25, 400);
+  }
 
 window.onload = function() {
+  canvas = document.querySelector('canvas');
+  ctx = canvas.getContext('2d');
   startGame();
   };
 
 function startGame() {
-  canvas = document.querySelector('canvas');
-  ctx = canvas.getContext('2d');
-  player = new Player(0,0);
+  // console.log(ctx);
+  player = new Player(225,400);
 }
 
-
-// Key handler (smooth movement)
-var key = {
-  pressed: {},
-
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
-  space: 32,
-  b: 66,
-
-  isDown: function(keyCode) {
-
-    return this.pressed[keyCode];
-  },
-
-  onKeydown: function(event) {
-
-    console.log('onKeydown');
-    player.update();
-    this.pressed[event.keyCode] = true;
-  },
-
-  onKeyup: function(event) {
-    console.log('onKeyup');
-    player.draw(ctx);
-    delete this.pressed[event.keyCode];
-  }
-};
-
-window.addEventListener('keyup', function(event) { key.onKeyup(event); }, false);
-window.addEventListener('keydown', function(event) { key.onKeydown(event); }, false);
+function animLoop() {
+  // console.log(ctx);
+  ctx.clearRect(0,0,450,600);
+  player.render();
+  requestAnimationFrame(animLoop);
+}
+requestAnimationFrame(animLoop);
