@@ -4,12 +4,21 @@ function Player(x, y) {
   this.width = 50; // Same size for player and enemies
   this.height = 50;
   this.speed = 20;
-  this.color = 'red';
+  this.color = 'blue';
+  this.imgArr = ['./img/player-red.png', './img/player-blue.png'];
+  this.img = new Image();
 }
 
+Player.prototype.setImage = function() {
+  this.img.src = this.color === 'blue' ? this.imgArr[1] : this.imgArr[0];
+  this.img.onload = function() {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }.bind(this)
+
+};
+
 Player.prototype.render = function() {
-  ctx.fillStyle = 'orange';
-  ctx.fillRect(this.x, this.y, 32, 32);
+  ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
 };
 
 Player.prototype.moveLeft = function() {
@@ -26,6 +35,12 @@ Player.prototype.moveUp = function() {
 
 Player.prototype.moveDown = function() {
   this.y += this.speed;
+};
+
+Player.prototype.changeColor = function() {
+  this.color = this.color === 'blue' ? 'red' : 'blue';
+  this.setImage();
+
 };
 
 Player.prototype.update = function() {
