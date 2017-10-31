@@ -15,16 +15,25 @@ var key = {
 
   onKeydown: function(event) {
     // console.log('onKeydown');
-    player.update();
     this.pressed[event.keyCode] = true;
   },
 
   onKeyup: function(event) {
     // console.log('onKeyup');
-    player.update();
     delete this.pressed[event.keyCode];
   }
 };
 
-window.addEventListener('keyup', function(event) { key.onKeyup(event); }, false);
-window.addEventListener('keydown', function(event) { key.onKeydown(event); }, false);
+window.addEventListener('keyup', function(event) { key.onKeyup(event); });
+window.addEventListener('keydown', function(event) { key.onKeydown(event); });
+// Separated event to avoid false multiple inputs 
+window.addEventListener('keydown', function(event) {
+    if (event.keyCode === 66) {
+      console.log('b is clicked');
+      player.changeColor();
+    }
+    if (event.keyCode === 32) {
+      console.log('space is clicked');
+      player.fire();
+    }
+  });

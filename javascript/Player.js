@@ -1,15 +1,16 @@
 function Player(x, y) {
   this.x = x;
   this.y = y;
-  this.width = 50; // Same size for player and enemies
+  this.width = 50;
   this.height = 50;
   this.speed = 10;
   this.color = 'blue';
   this.imgArr = ['./img/player-red.png', './img/player-blue.png'];
-  this.img = new Image();
+  this.setImage();
 }
 
 Player.prototype.setImage = function() {
+  this.img = new Image();
   this.img.src = this.color === 'blue' ? this.imgArr[1] : this.imgArr[0];
   this.img.onload = function() {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -44,10 +45,8 @@ Player.prototype.changeColor = function() {
 };
 
 Player.prototype.fire = function() {
-  //create bullets
-  console.log('fire!');
-  bullets.push(new Bullet(this.x, this.y, this.color));
-  console.log(bullets);
+  playerBullets.push(new Bullet(this.x, this.y, this.color));
+  console.log(playerBullets);
 };
 
 Player.prototype.update = function() {
@@ -55,6 +54,6 @@ Player.prototype.update = function() {
   if (key.isDown(key.left)) this.moveLeft();
   if (key.isDown(key.down)) this.moveDown();
   if (key.isDown(key.right)) this.moveRight();
-  if (key.isDown(key.space)) this.fire();
-  if (key.isDown(key.b)) this.changeColor();
+  // if (key.isDown(key.space)) this.fire();
+  // if (key.isDown(key.b)) this.changeColor();
 };
