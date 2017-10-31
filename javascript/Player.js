@@ -13,7 +13,7 @@ Player.prototype.setImage = function() {
   this.img.src = this.color === 'blue' ? this.imgArr[1] : this.imgArr[0];
   this.img.onload = function() {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }.bind(this)
+  }.bind(this);
 
 };
 
@@ -38,14 +38,17 @@ Player.prototype.moveDown = function() {
 };
 
 Player.prototype.changeColor = function() {
+  console.log('changecolor called');
   this.color = this.color === 'blue' ? 'red' : 'blue';
   this.setImage();
 };
 
 Player.prototype.fire = function() {
+  //create bullets
   console.log('fire!');
+  bullets.push(new Bullet(this.x, this.y, this.color));
+  console.log(bullets);
 };
-
 
 Player.prototype.update = function() {
   if (key.isDown(key.up)) this.moveUp();
