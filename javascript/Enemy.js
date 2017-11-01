@@ -6,12 +6,11 @@ function Enemy(x, y, color) {
   this.speed = 10;
   this.color = color;
   this.type = 'enemy';
-  this.imgArr = ['./img/enemy-2-red.png', './img/enemy-2-blue.png'];
+  this.imgArr = ['./img/enemy-2-red.png', './img/enemy-2-blue.png', './img/explosion.png'];
   this.setImage();
-  // this.intervalID = '';
 }
 
-Enemy.prototype.setImage = function() {
+Enemy.prototype.setImage = function(explosion) {
   this.img = new Image();
   this.img.src = this.color === 'blue' ? this.imgArr[1] : this.imgArr[0];
   this.img.onload = function() {
@@ -42,5 +41,4 @@ Enemy.prototype.moveDown = function() {
 
 Enemy.prototype.fire = function() {
   enemyBullets.push(new Bullet(this.x, this.y, this.color, this.type));
-  console.log(enemyBullets);
 };
