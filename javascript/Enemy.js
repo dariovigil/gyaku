@@ -8,6 +8,7 @@ function Enemy(x, y, color) {
   this.type = 'enemy';
   this.imgArr = ['./img/enemy-2-red.png', './img/enemy-2-blue.png', './img/explosion.png'];
   this.setImage();
+  this.interval();
 }
 
 Enemy.prototype.setImage = function(explosion) {
@@ -41,4 +42,8 @@ Enemy.prototype.moveDown = function() {
 
 Enemy.prototype.fire = function() {
   enemyBullets.push(new Bullet(this.x, this.y, this.color, this.type));
+};
+
+Enemy.prototype.interval = function() {
+  var moveIntId = setInterval(this.moveLeft, 400);
 };

@@ -55,6 +55,7 @@ function animLoop() {
         }
         if(isColliding && bullet.color !== enemy.color) {
             enemies.splice(i--, 1); //meter en set time out para dar tiempo
+            createEnemy(enemy.color);
         }
     }
   }
@@ -85,4 +86,10 @@ function checkBulletBounds() {
   enemyBullets.forEach(function(enemyBullet, index, arr) {
     if(enemyBullet.y > canvas.height) arr.splice(index, 1);
   });
+}
+
+function createEnemy(color) {
+  var randomX = Math.random() * (400 - 50) + 50;
+  var randomY = Math.random() * (300 - 50) + 50;
+  enemies.push(new Enemy(randomX, randomY, color));
 }
