@@ -1,10 +1,11 @@
-function Player(x, y) {
+function Player(x, y, color, type) {
   this.x = x;
   this.y = y;
   this.width = 50;
   this.height = 50;
   this.speed = 10;
-  this.color = 'blue';
+  this.color = color;
+  this.type = type;
   this.imgArr = ['./img/player-red.png', './img/player-blue.png'];
   this.setImage();
 }
@@ -39,13 +40,12 @@ Player.prototype.moveDown = function() {
 };
 
 Player.prototype.changeColor = function() {
-  console.log('changecolor called');
   this.color = this.color === 'blue' ? 'red' : 'blue';
   this.setImage();
 };
 
 Player.prototype.fire = function() {
-  playerBullets.push(new Bullet(this.x, this.y, this.color));
+  playerBullets.push(new Bullet(this.x, this.y, this.color, this.type));
   console.log(playerBullets);
 };
 
@@ -54,6 +54,4 @@ Player.prototype.update = function() {
   if (key.isDown(key.left)) this.moveLeft();
   if (key.isDown(key.down)) this.moveDown();
   if (key.isDown(key.right)) this.moveRight();
-  // if (key.isDown(key.space)) this.fire();
-  // if (key.isDown(key.b)) this.changeColor();
 };

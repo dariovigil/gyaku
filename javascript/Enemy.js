@@ -5,8 +5,10 @@ function Enemy(x, y, color) {
   this.height = 83;
   this.speed = 10;
   this.color = color;
+  this.type = 'enemy';
   this.imgArr = ['./img/enemy-2-red.png', './img/enemy-2-blue.png'];
   this.setImage();
+  // this.intervalID = '';
 }
 
 Enemy.prototype.setImage = function() {
@@ -38,13 +40,7 @@ Enemy.prototype.moveDown = function() {
   if(this.y + this.height < canvas.height) this.y += this.speed;
 };
 
-// Enemy.prototype.changeColor = function() {
-//   console.log('changecolor called');
-//   this.color = this.color === 'blue' ? 'red' : 'blue';
-//   this.setImage();
-// };
-
 Enemy.prototype.fire = function() {
-  bullets.push(new Bullet(this.x, this.y, this.color));
-  console.log(bullets);
+  enemyBullets.push(new Bullet(this.x, this.y, this.color, this.type));
+  console.log(enemyBullets);
 };
