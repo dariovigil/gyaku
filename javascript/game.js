@@ -1,4 +1,4 @@
-var canvas, points = 10, player, ctx, game, dy, bg, bgCounter = 0, playerBullets = [], enemyBullets = [], enemies = [];
+var canvas, points = 10, health = 100, player, ctx, game, dy, bg, bgCounter = 0, playerBullets = [], enemyBullets = [], enemies = [];
 
 window.onload = function() {
   canvas = document.querySelector('canvas');
@@ -22,6 +22,7 @@ function animLoop() {
   checkBulletBounds();
   checkCollisions();
   checkPlayerCollisions();
+  checkHealth();
   player.update();
   playerBullets.forEach(bullet => bullet.update());
   enemyBullets.forEach(bullet => bullet.update());
@@ -30,6 +31,7 @@ function animLoop() {
   ctx.fillStyle = 'white';
   ctx.font="25px Monospace";
   ctx.fillText(`Score: ${points}`,260, 20);
+  ctx.fillText(`Health: ${health}`,50, 20);
   requestAnimationFrame(animLoop);
 }
 
@@ -65,15 +67,20 @@ function checkPlayerCollisions() {
     && enemyBullet.y <= (player.y + player.height/2)
   ) {
     if(player.color === enemyBullet.color) {
-      // console.log('puntos' + points);
       points += 100;
     } else {
-      console.log('game over');
+      health--;
     }
   }
 });
 }
-
+function checkHealth() {
+  if(health < 1) {
+    health = 0;
+    // TO DO DISPLAY GAME OVER / RETRY
+    console.log('game over');
+  }
+}
 function checkBulletBounds() {
   enemyBullets.forEach(function(enemyBullet, index, arr) {
     if(enemyBullet.y > canvas.height) arr.splice(index, 1);
