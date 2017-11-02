@@ -46,6 +46,7 @@ Player.prototype.changeColor = function() {
 
 Player.prototype.fire = function() {
   playerBullets.push(new Bullet(this.x, this.y, this.color, this.type));
+  shoot.play();
   console.log(playerBullets);
 };
 

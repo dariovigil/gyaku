@@ -3,6 +3,7 @@ var canvas, time = 30, createEnemyIntId, nIntervId, requestId, points = 0, healt
 window.onload = function() {
   canvas = document.querySelector('canvas');
   ctx = canvas.getContext('2d');
+  powerOn.play();
   };
 
 function enemiesMovements() {
@@ -16,6 +17,7 @@ function decreaseTime() {
 }
 
 function startGame() {
+  music.play();
   player = new Player(262, 400, 'red', 'player');
   enemies.push(new Enemy(125, 70, 'red'));
   enemies.push(new Enemy(325, 70, 'blue'));
@@ -59,6 +61,8 @@ function animLoop() {
   if(!time || health <= 0) {
     window.clearInterval(createEnemyIntId);
     window.clearInterval(nIntervId);
+    music.stop();
+    gameOverSound.play();
     setHighScore();
     return;
   }
@@ -119,8 +123,10 @@ function checkPlayerCollisions() {
 
     if(player.color === enemyBullet.color) {
       points += 100;
+      absorb.play();
     } else {
       health-= 10;
+      damage.play();
     }
   }
 });
@@ -130,7 +136,8 @@ function checkHealth() {
   if(health < 1) {
     health = 0;
     // TO DO DISPLAY GAME OVER / RETRY
-
+    gameOverSound.play();
+    music.stop();
     console.log('game over');
   }
 }
