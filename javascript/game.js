@@ -1,24 +1,63 @@
-var canvas, points = 10, health = 100, player, ctx, game, dy, bg, bgCounter = 0, playerBullets = [], enemyBullets = [], enemies = [];
+var canvas, time = 3, createEnemyIntId, nIntervId, requestId, points = 10700, health = 100, player, ctx, game, dy, bg, bgCounter = 0, playerBullets = [], enemyBullets = [], enemies = [], pause = false;
 
 window.onload = function() {
   canvas = document.querySelector('canvas');
   ctx = canvas.getContext('2d');
-  startGame();
   };
 
-function enemiesFire() {
+function enemiesMovements() {
   enemies.forEach(enemy => enemy.fire());
+  // enemies.forEach(enemy => enemy.moveRight());
+  // enemies.forEach(enemy => enemy.interval());
 }
+
+function decreaseTime() {
+  time--;
+}
+
 function startGame() {
-  player = new Player(225, 400, 'red', 'player');
+  player = new Player(262, 400, 'red', 'player');
   enemies.push(new Enemy(225, 70, 'red'));
+  // enemies[0].interval(enemies[0].dance);
   enemies.push(new Enemy(50, 70, 'blue'));
-  var nIntervId = setInterval(enemiesFire, 400);
-  requestAnimationFrame(animLoop);
+  enemies.forEach(enemy => enemy.interval(enemy.dance));
+  createEnemyIntId = setInterval(createEnemy, 2000);
+  nIntervId = setInterval(enemiesMovements, 400);
+  requestId = requestAnimationFrame(animLoop);
+  timerIntId = setInterval(decreaseTime, 1000);
+}
+
+function setHighScore() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if(points > localStorage.getItem('highScore')) {
+    localStorage.setItem('highScore', points);
+    ctx.fillStyle = 'white';
+    ctx.font="30px Monospace";
+    ctx.fillText(`New High Score!!!`,120 ,200);
+    ctx.fillText(`${points} points`,140 ,240);
+  } else {
+    ctx.fillStyle = 'white';
+    ctx.font="30px Monospace";
+    ctx.fillText(`Your Score: ${points}`,120 ,100);
+    ctx.fillText(`High Score: ${localStorage.highScore}`,120 ,300);
+  }
 }
 
 function animLoop() {
-  ctx.clearRect(0, 0, 450, 600);
+  console.log(time);
+
+  if(!time) {
+    window.clearInterval(createEnemyIntId);
+    window.clearInterval(nIntervId);
+    setHighScore();
+
+    return;
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   checkBulletBounds();
   checkCollisions();
   checkPlayerCollisions();
@@ -29,9 +68,10 @@ function animLoop() {
   player.render();
   enemies.forEach(enemy => enemy.render());
   ctx.fillStyle = 'white';
-  ctx.font="25px Monospace";
-  ctx.fillText(`Score: ${points}`,260, 20);
-  ctx.fillText(`Health: ${health}`,50, 20);
+  ctx.font="20px Monospace";
+  ctx.fillText(`Score: ${points}`,350 ,20);
+  ctx.fillText(`Life: ${health}`,25 ,20);
+  ctx.fillText(`Time: ${time}`,200 ,20);
   requestAnimationFrame(animLoop);
 }
 
@@ -55,18 +95,22 @@ function animLoop() {
         }
         if(isColliding && bullet.color !== enemy.color) {
             enemies.splice(i--, 1); //meter en set time out para dar tiempo
-            createEnemy(enemy.color);
+            points += 1000;
         }
     }
   }
 //  Check for enemy bullet vs player collisions.
 function checkPlayerCollisions() {
-  enemyBullets.forEach(function(enemyBullet) {
+  enemyBullets.forEach(function(enemyBullet, index) {
     if(enemyBullet.x >= (player.x - player.width/2)
     && enemyBullet.x <= (player.x + player.width/2)
     && enemyBullet.y >= (player.y - player.height/2)
     && enemyBullet.y <= (player.y + player.height/2)
   ) {
+    //  Remove the bullet, set 'isColliding' so we don't process this bullet again.
+      enemyBullets.splice(index, 1);
+      console.log('enemy bullet removed');
+
     if(player.color === enemyBullet.color) {
       points += 100;
     } else {
@@ -75,6 +119,7 @@ function checkPlayerCollisions() {
   }
 });
 }
+
 function checkHealth() {
   if(health < 1) {
     health = 0;
@@ -88,8 +133,10 @@ function checkBulletBounds() {
   });
 }
 
-function createEnemy(color) {
-  var randomX = Math.random() * (400 - 50) + 50;
+function createEnemy() {
+  var colors = ['red', 'blue'];
+  var randomColor = colors[Math.round(Math.random())];
+  var randomX = Math.random() * (canvas.width - 50) + 50;
   var randomY = Math.random() * (300 - 50) + 50;
-  enemies.push(new Enemy(randomX, randomY, color));
+  if (enemies.length < 10) enemies.push(new Enemy(randomX, randomY, randomColor));
 }

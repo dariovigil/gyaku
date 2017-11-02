@@ -1,10 +1,36 @@
+html, body {margin: 0; height: 100%; overflow: hidden}
+
 body {
-  display: flex;
-  justify-content: space-around;
+  /*display: flex;*/
+  /*justify-content: space-around;*/
+  color: white;
+  position: relative;
   background-color: black;
+  margin: 0 auto;
+}
+.container {
+  position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    /*z-index: 0;*/
+}
+.start {
+  position: absolute;
+  left: 48%;
+  transform: translate(-50%, 0);
+  top: 140px;
+  z-index: 2;
 }
 
+.hidden {
+  visibility:hidden;
+}
 canvas {
+  position: absolute;
+  left: 48%;
+  transform: translate(-50%, 0);
+  top: 140px;
+  z-index: -2;
   background-image: url("./img/giphy_vert_inf.gif");
   background-color: grey;
   /*border: 1px solid red;*/

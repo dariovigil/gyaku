@@ -8,7 +8,7 @@ function Enemy(x, y, color) {
   this.type = 'enemy';
   this.imgArr = ['./img/enemy-2-red.png', './img/enemy-2-blue.png', './img/explosion.png'];
   this.setImage();
-  this.interval();
+  // this.interval();
 }
 
 Enemy.prototype.setImage = function(explosion) {
@@ -25,6 +25,8 @@ Enemy.prototype.render = function() {
 };
 
 Enemy.prototype.moveLeft = function() {
+  console.log('moveleft');
+  console.log(this);
   if(this.x > 0) this.x -= this.speed;
 };
 
@@ -44,6 +46,19 @@ Enemy.prototype.fire = function() {
   enemyBullets.push(new Bullet(this.x, this.y, this.color, this.type));
 };
 
-Enemy.prototype.interval = function() {
-  var moveIntId = setInterval(this.moveLeft, 400);
+Enemy.prototype.interval = function(dance) {
+  console.log('interval dentro nave');
+  var myId = setInterval(dance.bind(this), 20);
+};
+
+Enemy.prototype.dance = function() {
+  // console.log('enemy dance inside');
+  // console.log(this);
+  // if(this.x > 225 && this.x > 0) {
+  //   this.x--;
+  // } else {
+  //   this.x++;
+  // }
+  // if(this.x <= 350) this.moveRight();
+  // this.x += this.x < 200 ? 20 : 0;
 };
