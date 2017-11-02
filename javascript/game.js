@@ -1,4 +1,4 @@
-var canvas, time = 3, createEnemyIntId, nIntervId, requestId, points = 10700, health = 100, player, ctx, game, dy, bg, bgCounter = 0, playerBullets = [], enemyBullets = [], enemies = [], pause = false;
+var canvas, time = 30, createEnemyIntId, nIntervId, requestId, points = 0, health = 100, player, ctx, game, dy, bg, bgCounter = 0, playerBullets = [], enemyBullets = [], enemies = [], pause = false;
 
 window.onload = function() {
   canvas = document.querySelector('canvas');
@@ -17,9 +17,8 @@ function decreaseTime() {
 
 function startGame() {
   player = new Player(262, 400, 'red', 'player');
-  enemies.push(new Enemy(225, 70, 'red'));
-  // enemies[0].interval(enemies[0].dance);
-  enemies.push(new Enemy(50, 70, 'blue'));
+  enemies.push(new Enemy(125, 70, 'red'));
+  enemies.push(new Enemy(325, 70, 'blue'));
   enemies.forEach(enemy => enemy.interval(enemy.dance));
   createEnemyIntId = setInterval(createEnemy, 2000);
   nIntervId = setInterval(enemiesMovements, 400);
@@ -28,32 +27,39 @@ function startGame() {
 }
 
 function setHighScore() {
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  if(points > localStorage.getItem('highScore')) {
-    localStorage.setItem('highScore', points);
+  if(health <= 0) {
     ctx.fillStyle = 'white';
-    ctx.font="30px Monospace";
-    ctx.fillText(`New High Score!!!`,120 ,200);
-    ctx.fillText(`${points} points`,140 ,240);
+    ctx.font="40px Monospace";
+    ctx.fillText(`You are Dead!`,120 ,200);
+    ctx.fillText(`Try Again?`,120 ,260);
   } else {
-    ctx.fillStyle = 'white';
-    ctx.font="30px Monospace";
-    ctx.fillText(`Your Score: ${points}`,120 ,100);
-    ctx.fillText(`High Score: ${localStorage.highScore}`,120 ,300);
+    if(points > localStorage.getItem('highScore')) {
+      localStorage.setItem('highScore', points);
+      ctx.fillStyle = 'white';
+      ctx.font="30px Monospace";
+      ctx.fillText(`New High Score!!!`,120 ,200);
+      ctx.fillText(`${points} points`,140 ,240);
+    } else {
+      ctx.fillStyle = 'white';
+      ctx.font="30px Monospace";
+      ctx.fillText(`Your Score: ${points}`,120 ,100);
+      ctx.fillText(`High Score: ${localStorage.highScore}`,120 ,300);
+    }
   }
 }
 
 function animLoop() {
   console.log(time);
 
-  if(!time) {
+  if(!time || health <= 0) {
     window.clearInterval(createEnemyIntId);
     window.clearInterval(nIntervId);
     setHighScore();
-
     return;
   }
 
@@ -114,7 +120,7 @@ function checkPlayerCollisions() {
     if(player.color === enemyBullet.color) {
       points += 100;
     } else {
-      health--;
+      health-= 10;
     }
   }
 });
@@ -124,6 +130,7 @@ function checkHealth() {
   if(health < 1) {
     health = 0;
     // TO DO DISPLAY GAME OVER / RETRY
+
     console.log('game over');
   }
 }
@@ -136,7 +143,7 @@ function checkBulletBounds() {
 function createEnemy() {
   var colors = ['red', 'blue'];
   var randomColor = colors[Math.round(Math.random())];
-  var randomX = Math.random() * (canvas.width - 50) + 50;
-  var randomY = Math.random() * (300 - 50) + 50;
+  var randomX = Math.random() * (canvas.width - 100) + 50;
+  var randomY = Math.random() * ((canvas.height / 2) - 50) + 50;
   if (enemies.length < 10) enemies.push(new Enemy(randomX, randomY, randomColor));
 }
