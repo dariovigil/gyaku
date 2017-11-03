@@ -1,8 +1,6 @@
 html, body {margin: 0; height: 100%; overflow: hidden}
 
 body {
-  /*display: flex;*/
-  /*justify-content: space-around;*/
   color: white;
   position: relative;
   background-color: black;
@@ -12,7 +10,6 @@ body {
   position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    /*z-index: 0;*/
 }
 .start {
   position: absolute;
@@ -33,5 +30,4 @@ canvas {
   z-index: -2;
   background-image: url("./img/giphy_vert_inf.gif");
   background-color: grey;
-  /*border: 1px solid red;*/
 }
