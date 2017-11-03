@@ -20,9 +20,9 @@ function startGame() {
   player = new Player(262, 400, 'red', 'player');
   enemies.push(new Enemy(125, 70, 'red'));
   enemies.push(new Enemy(325, 70, 'blue'));
-  enemies.forEach(enemy => enemy.interval(enemy.dance));
+  // enemies.forEach(enemy => enemy.interval(enemy.dance));
   createEnemyIntId = setInterval(createEnemy, 2000);
-  nIntervId = setInterval(enemiesMovements, 400);
+  nIntervId = setInterval(enemiesMovements, 600);
   requestId = requestAnimationFrame(animLoop);
   timerIntId = setInterval(decreaseTime, 1000);
 }
@@ -62,6 +62,8 @@ function animLoop() {
     window.clearInterval(nIntervId);
     music.stop();
     gameOverSound.play();
+    // enemyBullets = [];
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
     setHighScore();
     return;
   }

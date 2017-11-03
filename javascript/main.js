@@ -36,10 +36,6 @@ window.addEventListener('keydown', function(event) {
     if (event.keyCode === 13) {
       document.querySelector('.start').classList.add('hidden');
       startGame();
-      // console.log(document.querySelector('.start'));
-      // pause = pause ? false : true;
-      // console.log(pause);
-      // animLoop();
     }
     //Cancel animation
     if (event.keyCode === 81) {
