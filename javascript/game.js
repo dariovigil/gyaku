@@ -8,8 +8,7 @@ window.onload = function() {
 
 function enemiesMovements() {
   enemies.forEach(enemy => enemy.fire());
-  // enemies.forEach(enemy => enemy.moveRight());
-  // enemies.forEach(enemy => enemy.interval());
+  // TO DO enemy movement
 }
 
 function decreaseTime() {
